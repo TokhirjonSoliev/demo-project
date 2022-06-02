@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-frequency-column-user-table
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+          -columnExists:
+            tableName: user
+            columnName: frequency
+      changes:
+        - dropColumn:
+            tableName: user
+            columnName: frequency

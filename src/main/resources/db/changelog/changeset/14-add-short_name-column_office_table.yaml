@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_short_name
+      author: KhusanKholmatov
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: office
+                columnName: short_name
+      changes:
+        - addColumn:
+            tableName: office
+            columns:
+              - column:
+                  name: short_name
+                  type: varchar(5)
+                  constraints:
+                    nullable: false
+                    unique: true

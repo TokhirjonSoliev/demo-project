@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-workplace-count-column-floor-plan-table
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+          -columnExists:
+            tableName: floor_plan
+            columnName: wokrplace_count
+      changes:
+        - dropColumn:
+            tableName: floor_plan
+            columnName: workplace_count

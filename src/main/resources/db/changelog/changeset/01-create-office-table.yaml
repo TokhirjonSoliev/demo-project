@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-office-table
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: office
+      changes:
+        - createTable:
+            tableName: office
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_office
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parking_capacity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: floor_count
+                  type: int
+                  constraints:
+                    nullable: false

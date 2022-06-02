@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-floor-plan-table
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: floor_plan
+      changes:
+        - createTable:
+            tableName: floor_plan
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_floor_plan
+              - column:
+                  name: office_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_floor_plan_office
+                    references: office(id)
+              - column:
+                  name: floor
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: workplace_count
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: has_kitchen
+                  type: bool
+                  constraints:
+                    nullable: false
+              - column:
+                  name: has_conf_room
+                  type: bool
+                  constraints:
+                    nullable: false

@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-office_id-foreign-key-adding-new_one-in-floor-plan
+      author: KhusanKholmatov
+      preConditions:
+        - onFail: MARK_RAN
+          foreignKeyConstraintExists:
+            foreignKeyName: fk_floor_plan_office
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: floor_plan
+            constraintName: fk_floor_plan_office
+        - addForeignKeyConstraint:
+            baseColumnNames: office_id
+            baseTableName: floor_plan
+            onDelete: CASCADE
+            constraintName: fk_floor_plan_office
+            referencedTableName: office
+            referencedColumnNames: id

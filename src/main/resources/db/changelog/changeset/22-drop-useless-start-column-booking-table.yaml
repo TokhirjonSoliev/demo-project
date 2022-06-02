@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-start-column-booking-table
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+          -columnExists:
+            tableName: booking
+            columnName: start
+      changes:
+        - dropColumn:
+            tableName: booking
+            columns:
+              - column:
+                  name: start

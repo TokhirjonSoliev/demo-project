@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop_is_vip_column_of_workplace-table
+      author: Tokhir
+      preConditions:
+        - onFail: MARK_RAN
+          columnExists:
+            tableName: workplace
+            columnName: is_vip
+      changes:
+        - dropColumn:
+            tableName: workplace
+            columns:
+              - column:
+                  name: is_vip

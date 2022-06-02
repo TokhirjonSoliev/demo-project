@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-workplace-table
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: workplace
+      changes:
+        - createTable:
+            tableName: workplace
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_workplace
+              - column:
+                  name: floor_plan_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_workplace_floor_plan
+                    references: floor_plan(id)
+              - column:
+                  name: workplace_number
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_vip
+                  type: bool
+                  constraints:
+                    nullable: false
+              - column:
+                  name: has_pc
+                  type: bool
+                  constraints:
+                    nullable: false
+              - column:
+                  name: has_monitor
+                  type: bool
+                  constraints:
+                    nullable: false
+              - column:
+                  name: has_keyboard
+                  type: bool
+                  constraints:
+                    nullable: false
+              - column:
+                  name: has_headset
+                  type: bool
+                  constraints:
+                    nullable: false
+              - column:
+                  name: has_mouse
+                  type: bool
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_next_to_window
+                  type: bool
+                  constraints:
+                    nullable: false

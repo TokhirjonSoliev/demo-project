@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-end-column
+      author: Apulatjonov
+      preConditions:
+        - onFail: MARK_RAN
+          -columnExists:
+            tableName: booking
+            columnName: end
+      changes:
+        - dropColumn:
+            tableName: booking
+            columns:
+              - column:
+                  name: end

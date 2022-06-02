@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-waiting-list-table
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: waiting_list
+      changes:
+        - createTable:
+            tableName: waiting_list
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_waiting_list
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_booking_user
+                    references: user(id)
+              - column:
+                  name: workplace_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_booking_workplace
+                    references: workplace(id)
+              - column:
+                  name: has_parking
+                  type: bool
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_recurring
+                  type: bool
+                  constraints:
+                    nullable: false
+              - column:
+                  name: frequency
+                  type: int
+              - column:
+                  name: start
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end
+                  type: date
+                  constraints:
+                    nullable: false

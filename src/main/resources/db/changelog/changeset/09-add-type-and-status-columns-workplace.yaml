@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_type_and_status_columns_to_workplace_table
+      author: Tokhir
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: workplace
+                columnName: state
+            - columnExists:
+                tableName: workplace
+                columnName: type
+      changes:
+        - addColumn:
+            tableName: workplace
+            columns:
+              - column:
+                  name: type
+                  type: varchar(20)
+                  defaultValue: REGULAR
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(20)
+                  defaultValue: AVAILABLE
+                  constraints:
+                    nullable: false

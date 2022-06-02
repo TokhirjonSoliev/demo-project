@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-incomplete-booking-table
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: incomplete_booking
+      changes:
+        - createTable:
+            tableName: incomplete_booking
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_incomplete_booking
+              - column:
+                  name: office_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_incomplete_booking_office
+                    references: office(id)
+              - column:
+                  name: created_by_id
+                  type: uuid
+                  constraints:
+                    unique: true
+                    nullable: false
+                    foreignKeyName: fk_incomplete_booking_by_user
+                    references: user(id)
+              - column:
+                  name: created_for_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_incomplete_booking_for_user
+                    references: user(id)
+              - column:
+                  name: floor_plan_id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk_incomplete_booking_floor_plan
+                    references: floor_plan(id)
+              - column:
+                  name: workplace_id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk_incomplete_booking_workplace
+                    references: workplace(id)
+              - column:
+                  name: has_parking
+                  type: bool
+              - column:
+                  name: frequency
+                  type: varchar(10)
+              - column:
+                  name: start_date
+                  type: date
+              - column:
+                  name: end_date
+                  type: date

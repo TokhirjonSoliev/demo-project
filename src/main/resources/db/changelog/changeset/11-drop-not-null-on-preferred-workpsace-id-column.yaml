@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-not-null-constraint-on-workspace-id-column
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 'NO'
+            sql: SELECT is_nullable FROM information_schema.columns
+                    WHERE
+                       table_schema = 'public'
+                       AND table_name   = 'user'
+                       AND column_name  = 'preferred_workplace_id'
+
+      changes:
+        - dropNotNullConstraint:
+            tableName: user
+            columnName: preferred_workplace_id
+
+

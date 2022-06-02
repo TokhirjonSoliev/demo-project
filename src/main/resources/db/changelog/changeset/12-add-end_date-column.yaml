@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_start_date_and_end_date_columns
+      author: Apulatjonov
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: booking
+                columnName: start_date
+            - columnExists:
+                tableName: booking
+                columnName: end_date
+      changes:
+        - addColumn:
+            tableName: booking
+            columns:
+              - column:
+                  name: start_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: date
+                  constraints:
+                    nullable: false

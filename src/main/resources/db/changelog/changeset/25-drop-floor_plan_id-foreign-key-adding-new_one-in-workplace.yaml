@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-floor_plan_id-foreign-key-adding-new_one-in-workplace
+      author: KhusanKholmatov
+      preConditions:
+        - onFail: MARK_RAN
+          foreignKeyConstraintExists:
+            foreignKeyName: fk_workplace_floor_plan
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: workplace
+            constraintName: fk_workplace_floor_plan
+        - addForeignKeyConstraint:
+            baseColumnNames: floor_plan_id
+            baseTableName: workplace
+            onDelete: CASCADE
+            constraintName: fk_workplace_floor_plan
+            referencedTableName: floor_plan
+            referencedColumnNames: id

@@ -1,0 +1,20 @@
+package com.exadel.coolDesking.user;
+
+public enum UserState {
+    WELCOME,
+    MAIN_MENU,
+    SELECT_COUNTRY,
+    SELECT_CITY,
+    SELECT_OFFICE,
+    SELECT_FLOOR,
+    SELECT_WORKPLACE,
+    SELECT_TYPE,
+    SELECT_ONE_DAY,
+    SELECT_RECURRING_DAY,
+    SELECT_START_DATE,
+    SELECT_END_DATE,
+    SELECT_PARKING,
+    FINAL_APPROVAL
+
+
+}

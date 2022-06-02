@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-is-recurring-column-booking-table
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+          -columnExists:
+            tableName: booking
+            columnName: is_recurring
+      changes:
+        - dropColumn:
+            tableName: booking
+            columnName: is_recurring

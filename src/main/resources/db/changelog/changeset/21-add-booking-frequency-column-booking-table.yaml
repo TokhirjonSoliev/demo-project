@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-booking-frequency-column-to-booking
+      author: gargatuma
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: booking
+                columnName: frequency
+      changes:
+        - addColumn:
+            tableName: booking
+            columns:
+              - column:
+                  name: frequency
+                  type: varchar(50)
+                  defaultValue: 'CONTINUES'
+                  constraints:
+                    nullable: false
