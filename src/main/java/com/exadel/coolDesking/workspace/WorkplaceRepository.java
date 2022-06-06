@@ -2,6 +2,7 @@ package com.exadel.coolDesking.workspace;
 
 
 import com.exadel.coolDesking.floorPlan.FloorPlan;
+import com.exadel.coolDesking.workspace.projection.WorkplaceProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -15,8 +16,6 @@ import java.util.UUID;
 @Repository
 public interface WorkplaceRepository extends JpaRepository<Workplace, UUID>, JpaSpecificationExecutor<Workplace> {
 
-    List<Workplace> findByFloorPlan_Office_Id(UUID officeId);
-
     Optional<Workplace> findByFloorPlan_Office_IdAndId(UUID officeId, UUID id);
 
     boolean existsByFloorPlan_Office_IdAndWorkplaceNumber(UUID officeId, Integer workplaceNumber);
@@ -24,5 +23,10 @@ public interface WorkplaceRepository extends JpaRepository<Workplace, UUID>, Jpa
     @Query("SELECT w.workplaceNumber FROM Workplace w WHERE w.floorPlan = ?1")
     List<Integer> findAllByFloorPlan(FloorPlan floorPlan);
 
-    Optional<Workplace> findWorkplaceByFloorPlanAndWorkplaceNumber(FloorPlan floorPlan, Integer workplaceNumber);
+    /*@Query(value = "select w.workplace_number as workPlaceNumber from workplace w \n" +
+            "where w.floor_plan_id = ?1", nativeQuery = true)*/
+    @Query(value = "select w.workplace_number as workPlaceNumber, w.type from workplace w \n" +
+            "where w.floor_plan_id = ?1", nativeQuery = true)
+    List<WorkplaceProjection> findAllByFloorPlan_Id(UUID floorPlanId);
+
 }

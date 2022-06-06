@@ -38,6 +38,10 @@ public class WorkplaceController {
         return ResponseEntity.ok(workplaceService.getWorkPlaces(officeId, filter));
     }
 
+    @GetMapping("/floorPlan/{floorPlan_id}/workplace/projection")
+    public ResponseEntity<?> getWorkplaceNumber(@PathVariable("office_id") UUID officeId, @PathVariable("floorPlan_id") UUID floorPlanId){
+        return ResponseEntity.ok(workplaceService.getWorkplaceNumberByProjection(floorPlanId));
+    }
     /**
      * This method returns workplace which has the same id with param id, otherwise it returns null
      *
