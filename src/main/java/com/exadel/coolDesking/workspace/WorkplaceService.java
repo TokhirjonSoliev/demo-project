@@ -6,7 +6,7 @@ import com.exadel.coolDesking.common.exception.FileParseException;
 import com.exadel.coolDesking.common.exception.NotFoundException;
 import com.exadel.coolDesking.floorPlan.FloorPlan;
 import com.exadel.coolDesking.floorPlan.FloorPlanRepository;
-import com.exadel.coolDesking.workspace.projection.WorkplaceProjection;
+import com.exadel.coolDesking.workspace.projection.classBasedProjection.WorkplaceProjection;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -32,6 +32,10 @@ public class WorkplaceService {
     private final FloorPlanRepository floorPlanRepository;
     private final WorkplaceMapper workplaceMapper;
     private final KafkaTemplate<String, NotFoundException> kafkaTemplate;
+
+    /*public List<WorkplaceProjection> getWorkplaceNumberByProjection(UUID floorPlanId){
+        return workplaceRepository.findAllByFloorPlan_Id(floorPlanId);
+    }*/
 
     public List<WorkplaceProjection> getWorkplaceNumberByProjection(UUID floorPlanId){
         return workplaceRepository.findAllByFloorPlan_Id(floorPlanId);

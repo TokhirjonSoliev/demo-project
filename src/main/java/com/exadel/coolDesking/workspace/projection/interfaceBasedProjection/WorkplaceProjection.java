@@ -1,4 +1,4 @@
-package com.exadel.coolDesking.workspace.projection;
+package com.exadel.coolDesking.workspace.projection.interfaceBasedProjection;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
