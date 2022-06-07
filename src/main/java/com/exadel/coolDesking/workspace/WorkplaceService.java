@@ -33,11 +33,11 @@ public class WorkplaceService {
     private final WorkplaceMapper workplaceMapper;
     private final KafkaTemplate<String, NotFoundException> kafkaTemplate;
 
-    /*public List<WorkplaceProjection> getWorkplaceNumberByProjection(UUID floorPlanId){
+    public List<WorkplaceProjection> getWorkplaceNumberByInterfaceProjection(UUID floorPlanId){
         return workplaceRepository.findAllByFloorPlan_Id(floorPlanId);
-    }*/
+    }
 
-    public List<WorkplaceProjection> getWorkplaceNumberByProjection(UUID floorPlanId){
+    public List<WorkplaceProjection> getWorkplaceNumberByClassProjection(UUID floorPlanId){
         return workplaceRepository.findAllByFloorPlan_Id(floorPlanId);
     }
 
@@ -118,13 +118,6 @@ public class WorkplaceService {
         return workplaceRepository.findAllByFloorPlan(floorPlan);
     }
 
-    /*public Workplace getByFloorPlanAndNumber(FloorPlan floorPlan, Integer number, String telegramId) {
-       return workplaceRepository.findWorkplaceByFloorPlanAndWorkplaceNumber(floorPlan, number)
-               .orElseThrow(() -> new BotNotFoundException(
-                       "Workplace Not Found",
-                       WorkplaceService.class,
-                       telegramId));
-    }*/
     private List<Workplace> readFromXls(InputStream inputStream, UUID officeId, UUID floorPlanId, FloorPlan floorPlan) {
         List<Workplace> workplaces = new ArrayList<>();
         HSSFWorkbook workbook;

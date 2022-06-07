@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.validation.Valid;
@@ -40,7 +39,7 @@ public class WorkplaceController {
 
     @GetMapping("/floorPlan/{floorPlan_id}/workplace/projection")
     public ResponseEntity<?> getWorkplaceNumber(@PathVariable("office_id") UUID officeId, @PathVariable("floorPlan_id") UUID floorPlanId){
-        return ResponseEntity.ok(workplaceService.getWorkplaceNumberByProjection(floorPlanId));
+        return ResponseEntity.ok(workplaceService.getWorkplaceNumberByClassProjection(floorPlanId));
     }
     /**
      * This method returns workplace which has the same id with param id, otherwise it returns null
