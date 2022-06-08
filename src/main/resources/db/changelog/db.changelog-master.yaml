@@ -47,3 +47,5 @@ databaseChangeLog:
       file: db/changelog/changeset/24-drop-office_id-foreign-key-adding-new_one-in-floor-plan.yaml
   - include:
       file: db/changelog/changeset/25-drop-floor_plan_id-foreign-key-adding-new_one-in-workplace.yaml
+  - include:
+      file: db/changelog/changeset/26-add-auditing-columns-workplace.yaml

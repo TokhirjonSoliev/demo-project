@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_auditing_columns_to_workplace_table
+      author: Tokhirjon
+      preConditions:
+      - onFail: MARK_RAN
+      - tableExists:
+            tableName: workplace
+      changes:
+        - addColumn:
+            tableName: workplace
+            columns:
+              - column:
+                  name: created_at
+                  type: timestamp without time zone
+              - column:
+                  name: createdBy
+                  type: UUID
+              - column:
+                  name: updated_at
+                  type: timestamp without time zone
+              - column:
+                  name: updatedBy
+                  type: UUID
+        -  addDefaultValue:
+                   columnName: created_at
+                   defaultValueComputed: now()
+                   tableName: workplace
+        - addDefaultValue:
+                  columnName: updated_at
+                  defaultValueComputed: now()
+                  tableName: workplace
