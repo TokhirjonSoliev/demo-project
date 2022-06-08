@@ -6,6 +6,7 @@ import com.exadel.coolDesking.common.exception.FileParseException;
 import com.exadel.coolDesking.common.exception.NotFoundException;
 import com.exadel.coolDesking.floorPlan.FloorPlan;
 import com.exadel.coolDesking.floorPlan.FloorPlanRepository;
+import com.exadel.coolDesking.workspace.projection.classBasedProjection.WorkplaceProjection;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -32,6 +33,14 @@ public class WorkplaceService {
     private final WorkplaceMapper workplaceMapper;
     private final KafkaTemplate<String, NotFoundException> kafkaTemplate;
 
+    public List<WorkplaceProjection> getWorkplaceNumberByInterfaceProjection(UUID floorPlanId){
+        return workplaceRepository.findAllByFloorPlan_Id(floorPlanId);
+    }
+
+    public List<WorkplaceProjection> getWorkplaceNumberByClassProjection(UUID floorPlanId){
+        return workplaceRepository.findAllByFloorPlan_Id(floorPlanId);
+    }
+
     public List<WorkplaceResponseDto> getWorkPlaces(UUID officeId, WorkplaceFilter filter) {
         List<WorkplaceResponseDto> workplaceResponseDtos = new ArrayList<>();
         filter.setOfficeId(officeId);
@@ -53,7 +62,7 @@ public class WorkplaceService {
     public void addWorkplaces(MultipartHttpServletRequest file, UUID officeId, UUID floorPlanId) {
         final Iterator<String> fileNames = file.getFileNames();
         MultipartFile multipartFile = file.getFile(fileNames.next());
-        if (multipartFile == null){
+        if (multipartFile == null) {
             throw new BadRequestException("Invalid ContentType", Workplace.class, "multipartFile");
         }
         String contentType = multipartFile.getContentType();
@@ -109,13 +118,6 @@ public class WorkplaceService {
         return workplaceRepository.findAllByFloorPlan(floorPlan);
     }
 
-    /*public Workplace getByFloorPlanAndNumber(FloorPlan floorPlan, Integer number, String telegramId) {
-       return workplaceRepository.findWorkplaceByFloorPlanAndWorkplaceNumber(floorPlan, number)
-               .orElseThrow(() -> new BotNotFoundException(
-                       "Workplace Not Found",
-                       WorkplaceService.class,
-                       telegramId));
-    }*/
     private List<Workplace> readFromXls(InputStream inputStream, UUID officeId, UUID floorPlanId, FloorPlan floorPlan) {
         List<Workplace> workplaces = new ArrayList<>();
         HSSFWorkbook workbook;
