@@ -20,10 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -88,9 +85,10 @@ public class WorkplaceService {
 
     public WorkplaceResponseDto addWorkplace(UUID officeId, UUID floorPlanId, WorkplaceCreateDto workplaceCreateDto) {
         boolean existWorkplace = workplaceRepository.existsByFloorPlan_Office_IdAndWorkplaceNumber(officeId, workplaceCreateDto.getWorkplaceNumber());
-        if (!existWorkplace) {
+        if (existWorkplace) {
             kafkaTemplate.send("NotFoundException", new NotFoundException("There is already such workplace", Workplace.class, "workplaceNumber"));
         }
+        Optional<FloorPlan> byId = floorPlanRepository.findById(floorPlanId);
         FloorPlan floorPlan = floorPlanRepository.findById(floorPlanId)
                 .orElseThrow(() -> new NotFoundException(floorPlanId + " does not exist", Workplace.class, "floorPlanId"));
 
