@@ -13,20 +13,14 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: timestamp without time zone
+                  defaultValueComputed: now()
               - column:
                   name: createdBy
                   type: UUID
               - column:
                   name: updated_at
                   type: timestamp without time zone
+                  defaultValueComputed: now()
               - column:
                   name: updatedBy
                   type: UUID
-        -  addDefaultValue:
-                   columnName: created_at
-                   defaultValueComputed: now()
-                   tableName: workplace
-        - addDefaultValue:
-                  columnName: updated_at
-                  defaultValueComputed: now()
-                  tableName: workplace

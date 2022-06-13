@@ -13,6 +13,11 @@ public class KafkaTopicConfig {
         return TopicBuilder.name("NotFoundException").build();
     }
 
+    @Bean
+    public NewTopic topic2() {
+        return TopicBuilder.name("ConflictException").build();
+    }
+
 //    @Bean
 //    public NewTopic topic2() {
 //        return TopicBuilder.name("NotFoundException").build();

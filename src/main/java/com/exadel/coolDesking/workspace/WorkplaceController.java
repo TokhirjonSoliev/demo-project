@@ -1,6 +1,8 @@
 package com.exadel.coolDesking.workspace;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ import java.util.UUID;
 @RestController
 public class WorkplaceController {
     private final WorkplaceService workplaceService;
+
+//    private final WorkplaceRepository workplaceRepository;
 
     /**
      * This method returns all workplaces regardless of their status
@@ -52,6 +56,11 @@ public class WorkplaceController {
     public ResponseEntity<?> getWorkplace(@PathVariable UUID office_id, @PathVariable UUID workplace_id) {
         return ResponseEntity.ok(workplaceService.getWorkPlace(office_id, workplace_id));
     }
+
+//    public Iterable<Workplace> recentWorkplaces(){
+//        PageRequest page = PageRequest.of(0, 12, Sort.by("createdAt").descending());
+//        return workplaceRepository.findAll(page).getContent();
+//    }
 
     /**
      * This method adds a file of new workplace if it does not exist
