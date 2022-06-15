@@ -1,5 +1,6 @@
 package com.exadel.coolDesking.floorPlan;
 
+import com.exadel.coolDesking.auditing.AbsEntity;
 import com.exadel.coolDesking.office.Office;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "floor_plan", uniqueConstraints = @UniqueConstraint(columnNames = {"office_id", "floor"}))
-public class FloorPlan {
+public class FloorPlan extends AbsEntity {
     @Id
     @GenericGenerator(
             name = "UUID",

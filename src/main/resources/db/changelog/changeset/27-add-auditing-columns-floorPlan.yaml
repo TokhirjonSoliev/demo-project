@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_auditing_columns_to_floorPlan_table
+      author: Tokhirjon
+      preConditions:
+      - onFail: MARK_RAN
+      - tableExists:
+            tableName: floor_plan
+      changes:
+        - addColumn:
+            tableName: floor_plan
+            columns:
+              - column:
+                  name: created_at
+                  type: timestamp without time zone
+                  defaultValueComputed: now()
+              - column:
+                  name: createdBy
+                  type: UUID
+              - column:
+                  name: updated_at
+                  type: timestamp without time zone
+                  defaultValueComputed: now()
+              - column:
+                  name: updatedBy
+                  type: UUID

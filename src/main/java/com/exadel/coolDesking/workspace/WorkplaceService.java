@@ -20,10 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +28,8 @@ public class WorkplaceService {
     private final WorkplaceRepository workplaceRepository;
     private final FloorPlanRepository floorPlanRepository;
     private final WorkplaceMapper workplaceMapper;
-    private final KafkaTemplate<String, NotFoundException> kafkaTemplate;
+
+    private final KafkaTemplate<Object, ConflictException> kafkaTemplate;
 
     public List<WorkplaceProjection> getWorkplaceNumberByInterfaceProjection(UUID floorPlanId){
         return workplaceRepository.findAllByFloorPlan_Id(floorPlanId);
@@ -88,9 +86,10 @@ public class WorkplaceService {
 
     public WorkplaceResponseDto addWorkplace(UUID officeId, UUID floorPlanId, WorkplaceCreateDto workplaceCreateDto) {
         boolean existWorkplace = workplaceRepository.existsByFloorPlan_Office_IdAndWorkplaceNumber(officeId, workplaceCreateDto.getWorkplaceNumber());
-        if (!existWorkplace) {
-            kafkaTemplate.send("NotFoundException", new NotFoundException("There is already such workplace", Workplace.class, "workplaceNumber"));
+        if (existWorkplace) {
+            kafkaTemplate.send("ConflictException", new ConflictException("There is already such workplace", Workplace.class, "workplaceNumber"));
         }
+
         FloorPlan floorPlan = floorPlanRepository.findById(floorPlanId)
                 .orElseThrow(() -> new NotFoundException(floorPlanId + " does not exist", Workplace.class, "floorPlanId"));
 
@@ -98,8 +97,6 @@ public class WorkplaceService {
         workplace.setStatus(WorkplaceStatus.AVAILABLE);
         workplace.setFloorPlan(floorPlan);
         Workplace savedWorkplace = workplaceRepository.save(workplace);
-
-//        kafkaTemplate.send("MyTopic", savedWorkplace.toString());
 
         return workplaceMapper.entityToResponseDTO(savedWorkplace);
     }

@@ -1,5 +1,6 @@
 package com.exadel.coolDesking.workspace;
 
+import com.exadel.coolDesking.auditing.AbsEntity;
 import com.exadel.coolDesking.floorPlan.FloorPlan;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +15,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "workplace", uniqueConstraints
         = @UniqueConstraint(columnNames = {"workplace_number", "floor_plan_id"}))
-public class Workplace {
-
+public class Workplace extends AbsEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
