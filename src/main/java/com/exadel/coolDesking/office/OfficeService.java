@@ -66,7 +66,7 @@ public class OfficeService {
             throw new NotFoundException("Office not found", Office.class, "id");
         }
         List<User> userList = officeRepository.findUserOfficeFloorPlanWorkplace(id);
-        userService.deleteUserPreferredWorkplaceId(userList);
+//        userService.deleteUserPreferredWorkplaceId(userList);
         officeRepository.deleteById(id);
         return new OfficeDeletedDto(id, "Office deleted successfully");
     }

@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @Entity
-@Table(name = "`user`")
+@Table(name = "`users`")
 public class User {
 
     @Id
@@ -23,7 +23,7 @@ public class User {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "id", updatable = false)
+    @Column(name = "id")
     private UUID id;
 
     @NotBlank
@@ -33,8 +33,18 @@ public class User {
 
     @NotBlank
     @Length(min = 1, max = 100)
+    @Column(name = "username")
+    private String username;
+
+    @NotBlank
+    @Length(min = 8)
+    @Column(name = "password")
+    private String password;
+
+    @NotBlank
+    @Length(min = 1, max = 100)
     @Column(name = "last_name")
-    private String last_name;
+    private String lastName;
 
     @NotBlank
     @Length(min = 3, max = 255)
@@ -51,7 +61,6 @@ public class User {
     @Column(name = "role")
     private UserRole role;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "user_state")
     private UserState userState;

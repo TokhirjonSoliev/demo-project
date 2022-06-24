@@ -1,40 +1,52 @@
 package com.exadel.coolDesking.user;
 
 
+import com.exadel.coolDesking.common.exception.ConflictException;
+import com.exadel.coolDesking.common.exception.NotFoundException;
+import com.exadel.coolDesking.workspace.Workplace;
+import com.exadel.coolDesking.workspace.WorkplaceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
+    private final WorkplaceRepository workplaceRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    /*public User getByTelegramId(String telegramId) {
-        return userRepository.findByTelegramId(telegramId)
-                .orElseThrow(() -> new BotNotFoundException(
-                        "User is not found",
-                        User.class,
-                        telegramId));
-    }*/
+    public User getUser(UUID userId){
+        return userRepository.findById(userId)
+                .orElseThrow(()-> new NotFoundException("There is no such user", User.class, "id"));
+    }
 
-    /*public void updateUserStatus(UserState userState, String telegramId) {
-        int i = userRepository.setUserStatus(userState, telegramId);
-        if (i == 0)
-            throw new BotNotFoundException(
-                    "UserState cannot be updated. User not found",
-                    User.class,
-                    telegramId);
-    }*/
+    public User addUser(UserDto userDto){
+        Workplace workplace = workplaceRepository.findById(userDto.getPreferredWorkplace())
+                .orElseThrow(()-> new NotFoundException("There is no such workplace", Workplace.class, "workplaceId"));
 
-    public void deleteUserPreferredWorkplaceId(List<User> userList){
-        for(User user: userList){
-            user.setPreferredWorkplace(null);
-            userRepository.save(user);
+        Optional<User> byUsername = userRepository.findByUsername(userDto.getUsername());
+        if (byUsername.isPresent()){
+            throw new ConflictException("This username is already taken", User.class, "username");
         }
+
+        User user = new User();
+        user.setEmail(userDto.getEmail());
+        user.setPreferredWorkplace(workplace);
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setUsername(userDto.getUsername());
+        user.setTelegramId(userDto.getTelegramId());
+        user.setRole(UserRole.valueOf(userDto.getRole()));
+        user.setEmploymentStart(userDto.getEmploymentStart());
+        user.setUserState(UserState.valueOf("MAIN_MENU"));
+
+        User save = userRepository.save(user);
+        return save;
     }
 }

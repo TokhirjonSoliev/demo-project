@@ -17,6 +17,8 @@ public interface WorkplaceRepository extends JpaRepository<Workplace, UUID>, Jpa
 
     Optional<Workplace> findByFloorPlan_Office_IdAndId(UUID officeId, UUID id);
 
+    List<WorkplaceResponseDto> findAllByFloorPlan_Office_Id(UUID floorPlan_office_id);
+
     boolean existsByFloorPlan_Office_IdAndWorkplaceNumber(UUID officeId, Integer workplaceNumber);
 
     @Query("SELECT w.workplaceNumber FROM Workplace w WHERE w.floorPlan = ?1")
