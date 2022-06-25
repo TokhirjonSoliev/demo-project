@@ -5,13 +5,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,16 +22,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
+@RequiredArgsConstructor
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
-    private final SecretKey secretKey;
+    private final JwtSecretKey jwtSecretKey;
     private final JwtConfig jwtConfig;
-
-    public JwtTokenVerifier(SecretKey secretKey,
-                            JwtConfig jwtConfig) {
-        this.secretKey = secretKey;
-        this.jwtConfig = jwtConfig;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -49,7 +45,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 
         try {
             Jws<Claims> claimsJws = Jwts.parser()
-                    .setSigningKey(secretKey)
+                    .setSigningKey(jwtSecretKey.secretKey())
                     .parseClaimsJws(token);
 
             Claims body = claimsJws.getBody();

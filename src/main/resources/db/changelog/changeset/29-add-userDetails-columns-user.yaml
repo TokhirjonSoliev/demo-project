@@ -11,13 +11,13 @@ databaseChangeLog:
             tableName: users
             columns:
               - column:
-                  name: accountNonExpired
+                  name: account_non_expired
                   type: bool
               - column:
-                  name: accountNonLocked
+                  name: account_non_locked
                   type: bool
               - column:
-                  name: credentialsNonExpired
+                  name: credentials_non_expired
                   type: bool
               - column:
                   name: enabled

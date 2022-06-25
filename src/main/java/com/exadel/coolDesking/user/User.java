@@ -77,13 +77,17 @@ public class User implements UserDetails {
     @Column(name = "employment_end")
     private LocalDate employmentEnd;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "preferred_workplace_id", referencedColumnName = "id")
     private Workplace preferredWorkplace;
 
+    @Column(name = "account_non_expired")
     private boolean accountNonExpired = true;
+    @Column(name = "account_non_locked")
     private boolean accountNonLocked = true;
+    @Column(name = "credentials_non_expired")
     private boolean credentialsNonExpired = true;
+    @Column(name = "enabled")
     private boolean enabled = true;
 
     @Override
