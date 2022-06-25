@@ -4,18 +4,23 @@ import com.exadel.coolDesking.workspace.Workplace;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
 @Setter
 @Getter
 @Entity
 @Table(name = "`users`")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -75,4 +80,34 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "preferred_workplace_id", referencedColumnName = "id")
     private Workplace preferredWorkplace;
+
+    private boolean accountNonExpired = true;
+    private boolean accountNonLocked = true;
+    private boolean credentialsNonExpired = true;
+    private boolean enabled = true;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Set.of(new SimpleGrantedAuthority("ROLE_"+this.role.name()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.accountNonExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.accountNonLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.credentialsNonExpired;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 }

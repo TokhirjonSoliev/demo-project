@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_userDetails_columns_to_user_table
+      author: Tokhir
+      preConditions:
+        - onFail: HALT
+        - tableExists:
+            tableName: users
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: accountNonExpired
+                  type: bool
+              - column:
+                  name: accountNonLocked
+                  type: bool
+              - column:
+                  name: credentialsNonExpired
+                  type: bool
+              - column:
+                  name: enabled
+                  type: bool

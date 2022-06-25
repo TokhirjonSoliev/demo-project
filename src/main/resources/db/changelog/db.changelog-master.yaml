@@ -49,3 +49,5 @@ databaseChangeLog:
       file: db/changelog/changeset/25-drop-floor_plan_id-foreign-key-adding-new_one-in-workplace.yaml
   - include:
       file: db/changelog/changeset/28-add-username-and-password-columns-user.yaml
+  - include:
+      file: db/changelog/changeset/29-add-userDetails-columns-user.yaml

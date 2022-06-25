@@ -5,9 +5,9 @@ databaseChangeLog:
       preConditions:
         - onFail: MARK_RAN
           -columnExists:
-            tableName: user
+            tableName: users
             columnName: frequency
       changes:
         - dropColumn:
-            tableName: user
+            tableName: users
             columnName: frequency
