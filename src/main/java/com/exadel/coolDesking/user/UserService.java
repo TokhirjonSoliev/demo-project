@@ -3,15 +3,20 @@ package com.exadel.coolDesking.user;
 
 import com.exadel.coolDesking.common.exception.ConflictException;
 import com.exadel.coolDesking.common.exception.NotFoundException;
+import com.exadel.coolDesking.config.mapper.UserMapper;
 import com.exadel.coolDesking.workspace.Workplace;
 import com.exadel.coolDesking.workspace.WorkplaceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +25,7 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final WorkplaceRepository workplaceRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     public User getUser(UUID userId){
         return userRepository.findById(userId)
@@ -36,17 +41,15 @@ public class UserService implements UserDetailsService {
             throw new ConflictException("This username is already taken", User.class, "username");
         }
 
-        User user = new User();
-        user.setEmail(userDto.getEmail());
+
+        User user = userMapper.userDtoToUser(userDto);
         user.setPreferredWorkplace(workplace);
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setUsername(userDto.getUsername());
-        user.setTelegramId(userDto.getTelegramId());
-        user.setRole(UserRole.valueOf(userDto.getRole()));
-        user.setEmploymentStart(userDto.getEmploymentStart());
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+        user.setEnabled(true);
         user.setUserState(UserState.valueOf("MAIN_MENU"));
+        user.setEmploymentEnd(LocalDate.parse("2022-06-30"));
 
         User save = userRepository.save(user);
         return save;

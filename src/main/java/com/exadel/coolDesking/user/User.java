@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -92,7 +93,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Set.of(new SimpleGrantedAuthority("ROLE_"+this.role.name()));
+        Set<SimpleGrantedAuthority> set = new HashSet<>();
+        set.add(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+        return set;
     }
 
     @Override
