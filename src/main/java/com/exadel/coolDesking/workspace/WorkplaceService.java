@@ -29,7 +29,9 @@ public class WorkplaceService {
     private final FloorPlanRepository floorPlanRepository;
     private final WorkplaceMapper workplaceMapper;
 
+
 //    private final KafkaTemplate<Object, ConflictException> kafkaTemplate;
+
 
     public List<WorkplaceProjection> getWorkplaceNumberByInterfaceProjection(UUID floorPlanId){
         return workplaceRepository.findAllByFloorPlan_Id(floorPlanId);
