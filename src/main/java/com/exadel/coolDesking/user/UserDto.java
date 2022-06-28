@@ -15,4 +15,5 @@ public class UserDto {
     private UUID preferredWorkplace;
     private String role;
     private LocalDate employmentStart;
+    private LocalDate employmentEnd;
 }

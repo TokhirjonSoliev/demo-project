@@ -25,6 +25,7 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final WorkplaceRepository workplaceRepository;
+    private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
     public User getUser(UUID userId){
@@ -43,13 +44,14 @@ public class UserService implements UserDetailsService {
 
 
         User user = userMapper.userDtoToUser(userDto);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setPreferredWorkplace(workplace);
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
         user.setEnabled(true);
         user.setUserState(UserState.valueOf("MAIN_MENU"));
-        user.setEmploymentEnd(LocalDate.parse("2022-06-30"));
+        user.setEmploymentEnd(userDto.getEmploymentEnd());
 
         User save = userRepository.save(user);
         return save;
