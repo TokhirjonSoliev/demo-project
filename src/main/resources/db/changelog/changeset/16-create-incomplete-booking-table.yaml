@@ -31,14 +31,14 @@ databaseChangeLog:
                     unique: true
                     nullable: false
                     foreignKeyName: fk_incomplete_booking_by_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: created_for_id
                   type: uuid
                   constraints:
                     nullable: false
                     foreignKeyName: fk_incomplete_booking_for_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: floor_plan_id
                   type: uuid

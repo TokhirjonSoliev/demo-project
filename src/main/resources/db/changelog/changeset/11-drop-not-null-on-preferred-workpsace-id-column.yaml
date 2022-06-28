@@ -9,12 +9,12 @@ databaseChangeLog:
             sql: SELECT is_nullable FROM information_schema.columns
                     WHERE
                        table_schema = 'public'
-                       AND table_name   = 'user'
+                       AND table_name   = 'users'
                        AND column_name  = 'preferred_workplace_id'
 
       changes:
         - dropNotNullConstraint:
-            tableName: user
+            tableName: users
             columnName: preferred_workplace_id
 
 

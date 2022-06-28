@@ -10,7 +10,7 @@ databaseChangeLog:
                 columnName: frequency
       changes:
         - addColumn:
-            tableName: user
+            tableName: users
             columns:
               - column:
                   name: frequency

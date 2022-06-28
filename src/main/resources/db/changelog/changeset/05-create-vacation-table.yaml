@@ -23,7 +23,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_vacation_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: start
                   type: date

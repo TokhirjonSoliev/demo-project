@@ -6,11 +6,11 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - columnExists:
-                tableName: user
+                tableName: users
                 columnName: user_state
       changes:
         - addColumn:
-            tableName: user
+            tableName: users
             columns:
               - column:
                   name: user_state

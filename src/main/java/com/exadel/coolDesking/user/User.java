@@ -4,18 +4,24 @@ import com.exadel.coolDesking.workspace.Workplace;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Setter
 @Getter
 @Entity
-@Table(name = "`user`")
-public class User {
+@Table(name = "`users`")
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -23,7 +29,7 @@ public class User {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "id", updatable = false)
+    @Column(name = "id")
     private UUID id;
 
     @NotBlank
@@ -33,8 +39,18 @@ public class User {
 
     @NotBlank
     @Length(min = 1, max = 100)
+    @Column(name = "username")
+    private String username;
+
+    @NotBlank
+    @Length(min = 8)
+    @Column(name = "password")
+    private String password;
+
+    @NotBlank
+    @Length(min = 1, max = 100)
     @Column(name = "last_name")
-    private String last_name;
+    private String lastName;
 
     @NotBlank
     @Length(min = 3, max = 255)
@@ -51,7 +67,6 @@ public class User {
     @Column(name = "role")
     private UserRole role;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "user_state")
     private UserState userState;
@@ -63,7 +78,43 @@ public class User {
     @Column(name = "employment_end")
     private LocalDate employmentEnd;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "preferred_workplace_id", referencedColumnName = "id")
     private Workplace preferredWorkplace;
+
+    @Column(name = "account_non_expired")
+    private boolean accountNonExpired = true;
+    @Column(name = "account_non_locked")
+    private boolean accountNonLocked = true;
+    @Column(name = "credentials_non_expired")
+    private boolean credentialsNonExpired = true;
+    @Column(name = "enabled")
+    private boolean enabled = true;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<SimpleGrantedAuthority> set = new HashSet<>();
+        set.add(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+        return set;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.accountNonExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.accountNonLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.credentialsNonExpired;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 }

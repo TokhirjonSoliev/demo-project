@@ -15,12 +15,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(path = "/{id}")
-    public User getById(@PathVariable UUID id) {
-        return null;
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        User user = userService.getUser(id);
+        return ResponseEntity.ok(user);
     }
 
-    @PostMapping
-    public User create(@RequestBody @Valid User user) {
-        return null;
+    @PostMapping("/add")
+    public ResponseEntity<?> create(@RequestBody @Valid UserDto userDto) {
+        User user = userService.addUser(userDto);
+        return ResponseEntity.ok(user);
     }
 }

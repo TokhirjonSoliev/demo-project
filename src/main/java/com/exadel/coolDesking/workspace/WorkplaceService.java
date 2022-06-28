@@ -29,7 +29,9 @@ public class WorkplaceService {
     private final FloorPlanRepository floorPlanRepository;
     private final WorkplaceMapper workplaceMapper;
 
-    private final KafkaTemplate<Object, ConflictException> kafkaTemplate;
+
+//    private final KafkaTemplate<Object, ConflictException> kafkaTemplate;
+
 
     public List<WorkplaceProjection> getWorkplaceNumberByInterfaceProjection(UUID floorPlanId){
         return workplaceRepository.findAllByFloorPlan_Id(floorPlanId);
@@ -87,7 +89,7 @@ public class WorkplaceService {
     public WorkplaceResponseDto addWorkplace(UUID officeId, UUID floorPlanId, WorkplaceCreateDto workplaceCreateDto) {
         boolean existWorkplace = workplaceRepository.existsByFloorPlan_Office_IdAndWorkplaceNumber(officeId, workplaceCreateDto.getWorkplaceNumber());
         if (existWorkplace) {
-            kafkaTemplate.send("ConflictException", new ConflictException("There is already such workplace", Workplace.class, "workplaceNumber"));
+//            kafkaTemplate.send("ConflictException", new ConflictException("There is already such workplace", Workplace.class, "workplaceNumber"));
         }
 
         FloorPlan floorPlan = floorPlanRepository.findById(floorPlanId)

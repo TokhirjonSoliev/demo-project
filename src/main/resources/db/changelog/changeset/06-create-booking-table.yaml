@@ -23,7 +23,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_booking_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: workplace_id
                   type: uuid
