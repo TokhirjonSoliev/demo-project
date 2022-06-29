@@ -13,12 +13,16 @@ databaseChangeLog:
               - column:
                   name: account_non_expired
                   type: bool
+                  defaultValueBoolean:  true
               - column:
                   name: account_non_locked
                   type: bool
+                  defaultValueBoolean:  true
               - column:
                   name: credentials_non_expired
                   type: bool
+                  defaultValueBoolean:  true
               - column:
                   name: enabled
                   type: bool
+                  defaultValueBoolean:  true

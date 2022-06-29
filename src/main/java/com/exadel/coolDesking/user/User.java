@@ -1,7 +1,8 @@
 package com.exadel.coolDesking.user;
 
 import com.exadel.coolDesking.workspace.Workplace;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
@@ -81,7 +82,6 @@ public class User implements UserDetails {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "preferred_workplace_id", referencedColumnName = "id")
     private Workplace preferredWorkplace;
-
     @Column(name = "account_non_expired")
     private boolean accountNonExpired = true;
     @Column(name = "account_non_locked")

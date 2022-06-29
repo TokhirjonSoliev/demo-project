@@ -16,4 +16,5 @@ public class UserDto {
     private String role;
     private LocalDate employmentStart;
     private LocalDate employmentEnd;
+    private String userState;
 }
