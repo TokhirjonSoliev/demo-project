@@ -1,16 +1,17 @@
 package com.exadel.coolDesking.config.jwt;
 
+import com.exadel.coolDesking.user.UserService;
 import com.google.common.base.Strings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
-//import lombok.var;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -29,6 +30,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 
     private final JwtSecretKey jwtSecretKey;
     private final JwtConfig jwtConfig;
+    private final UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -51,7 +53,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 
             Claims body = claimsJws.getBody();
 
-            String username = body.getSubject();
+            UserDetails user = userService.loadUserByUsername(body.getSubject());
 
             var authorities = (List<Map<String, String>>) body.get("authorities");
 
@@ -60,7 +62,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
                     .collect(Collectors.toSet());
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    username,
+                    user,
                     null,
                     simpleGrantedAuthorities
             );
