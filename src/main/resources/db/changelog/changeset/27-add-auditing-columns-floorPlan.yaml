@@ -15,12 +15,12 @@ databaseChangeLog:
                   type: timestamp without time zone
                   defaultValueComputed: now()
               - column:
-                  name: createdBy
+                  name: created_by
                   type: UUID
               - column:
                   name: updated_at
                   type: timestamp without time zone
                   defaultValueComputed: now()
               - column:
-                  name: updatedBy
+                  name: updated_by
                   type: UUID

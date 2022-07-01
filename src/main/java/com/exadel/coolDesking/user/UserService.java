@@ -7,16 +7,12 @@ import com.exadel.coolDesking.config.mapper.UserMapper;
 import com.exadel.coolDesking.workspace.Workplace;
 import com.exadel.coolDesking.workspace.WorkplaceRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -46,12 +42,6 @@ public class UserService implements UserDetailsService {
         User user = userMapper.userDtoToUser(userDto);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setPreferredWorkplace(workplace);
-        user.setAccountNonExpired(true);
-        user.setAccountNonLocked(true);
-        user.setCredentialsNonExpired(true);
-        user.setEnabled(true);
-        user.setUserState(UserState.valueOf("MAIN_MENU"));
-        user.setEmploymentEnd(userDto.getEmploymentEnd());
 
         User save = userRepository.save(user);
         return save;
