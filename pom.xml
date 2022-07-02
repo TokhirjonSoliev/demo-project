@@ -159,9 +159,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.6.4</version>
                 <configuration>
-                    <layers>
-                        <enabled>true</enabled>
-                    </layers>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -197,5 +194,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
