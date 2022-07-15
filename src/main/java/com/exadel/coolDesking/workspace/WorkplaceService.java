@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -28,10 +27,6 @@ public class WorkplaceService {
     private final WorkplaceRepository workplaceRepository;
     private final FloorPlanRepository floorPlanRepository;
     private final WorkplaceMapper workplaceMapper;
-
-
-//    private final KafkaTemplate<Object, ConflictException> kafkaTemplate;
-
 
     public List<WorkplaceProjection> getWorkplaceNumberByInterfaceProjection(UUID floorPlanId){
         return workplaceRepository.findAllByFloorPlan_Id(floorPlanId);
@@ -89,7 +84,7 @@ public class WorkplaceService {
     public WorkplaceResponseDto addWorkplace(UUID officeId, UUID floorPlanId, WorkplaceCreateDto workplaceCreateDto) {
         boolean existWorkplace = workplaceRepository.existsByFloorPlan_Office_IdAndWorkplaceNumber(officeId, workplaceCreateDto.getWorkplaceNumber());
         if (existWorkplace) {
-//            kafkaTemplate.send("ConflictException", new ConflictException("There is already such workplace", Workplace.class, "workplaceNumber"));
+            throw  new ConflictException("There is already such workplace", Workplace.class, "workplaceNumber");
         }
 
         FloorPlan floorPlan = floorPlanRepository.findById(floorPlanId)

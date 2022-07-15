@@ -8,12 +8,15 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface WorkplaceRepository extends JpaRepository<Workplace, UUID>, JpaSpecificationExecutor<Workplace> {
+
+    Optional<Workplace> findByWorkplaceNumber(Integer workplaceNumber);
 
     Optional<Workplace> findByFloorPlan_Office_IdAndId(UUID officeId, UUID id);
 
