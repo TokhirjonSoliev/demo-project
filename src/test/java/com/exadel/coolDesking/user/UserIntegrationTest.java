@@ -50,7 +50,6 @@ public class UserIntegrationTest {
     private MockMvc mockMvc;
     private String jwtToken;
 
-
     @Container
     static PostgreSQLContainer<?> database = new PostgreSQLContainer<>("postgres:12.3")
             .withDatabaseName("test")
